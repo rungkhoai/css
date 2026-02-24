@@ -1,4 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap&family=Montserrat&family=Pinyon+Script&family=Playfair+Display:ital@0;1&display=swap");
+@font-face {
+  font-family: 'RungKhoai';
+  src: url('/fonts/UTMGradoo.woff2') format('woff2'),
+    url('/fonts/UTMGradoo.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-rungkhoai {
+  font-family: 'RungKhoai', 'UTM Gradoo', Arial, sans-serif;
+}
+
 a {
   text-decoration: none !important;
 }
