@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rừng Khoái - CSS Utilities</title>
+    <link rel="stylesheet" href="../css/rungkhoai.css">
+    <style>
+        body {
+            font-family: "Roboto", sans-serif;
+            padding: 40px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            margin-top: 0;
+            border-bottom: 2px solid #bd2abf;
+            padding-bottom: 10px;
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .demo-box {
+            padding: 20px;
+            text-align: center;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="center cl0">Rừng Khoái - CSS Chung</h1>
+        <p class="center">Thư viện CSS utilities cho dự án Rừng Khoái</p>
+
+        <!-- Color Classes -->
+        <div class="section">
+            <h2>Màu sắc (Color Classes)</h2>
+            <div class="demo-grid">
+                <div class="demo-box bg0">bg0 - #bd2abf</div>
+                <div class="demo-box bg1">bg1 - #bf2a52</div>
+                <div class="demo-box bg2">bg2 - #bf6b7b</div>
+                <div class="demo-box bg3">bg3 - #f2c4c4</div>
+                <div class="demo-box bgb clw">bgb - #0d0d0d</div>
+                <div class="demo-box bgw clb">bgw - #fff</div>
+            </div>
+        </div>
+
+        <!-- Text Colors -->
+        <div class="section">
+            <h2>Màu chữ (Text Colors)</h2>
+            <p class="cl0">cl0 - Màu tím (#bd2abf)</p>
+            <p class="cl1">cl1 - Màu hồng (#bf2a52)</p>
+            <p class="cl2">cl2 - Màu hồng nhạt (#bf6b7b)</p>
+            <p class="cl3">cl3 - Màu hồng very nhạt (#f2c4c4)</p>
+            <p class="clw bgb">clw - Màu trắng</p>
+            <p class="clb">clb - Màu đen (#0d0d0d)</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="section center">
+            <h2>Nút (Buttons)</h2>
+            <a class="btn bg0 clw">Primary Button</a>
+            <a class="btn bg1 clw">Secondary Button</a>
+            <a class="btn bg2 clw">Tertiary Button</a>
+        </div>
+
+        <!-- Utilities -->
+        <div class="section">
+            <h2>Các lớp tiện ích (Utilities)</h2>
+            <p><strong>.center</strong> - Căn giữa text</p>
+            <p><strong>.btn</strong> - Kiểu nút cơ bản</p>
+            <p><strong>Fonts:</strong> Roboto, Montserrat, Pinyon Script, Playfair Display</p>
+        </div>
+    </div>
+</body>
+</html>
+
