@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rừng Khoái - CSS Utilities</title>
-    <link rel="stylesheet" href="../css/rungkhoai.css">
+    <link rel="stylesheet" href="/rungkhoai.css">
     <style>
         body {
             font-family: "Roboto", sans-serif;
@@ -90,3 +90,13 @@
 </body>
 </html>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '../css/rungkhoai.css';
+        document.head.appendChild(link);
+    });
+</script>
+</body>
+</html>
