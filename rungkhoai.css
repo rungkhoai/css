@@ -75,6 +75,7 @@ h2 {
   border-bottom: 2px solid var(--color-background);
   color: var(--color-primary);
   padding-bottom: 10px;
+  font-family: var(--font-rungkhoai);
 }
 
 .demo-grid {
