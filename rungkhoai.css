@@ -167,3 +167,8 @@ a.button,
   font-size: 16px;
   line-height: 1.7rem;
 }
+
+/* Custom styles for Odoo */
+#o_main_nav > a {
+  font-family: var(--font-rungkhoai);
+}
