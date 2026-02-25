@@ -172,3 +172,7 @@ a.button,
 #o_main_nav > a {
   font-family: var(--font-rungkhoai) !important;
 }
+
+#footer h5 {
+  font-family: var(--font-rungkhoai) !important;
+}
