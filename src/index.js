@@ -45,17 +45,15 @@ export default {
       try {
         if (origin) {
           const originHost = new URL(origin).hostname;
-          if (!matchHost(originHost)) return false;
+          return matchHost(originHost);
         }
 
         if (referer) {
           const refererHost = new URL(referer).hostname;
-          if (!matchHost(refererHost)) return false;
+          return matchHost(refererHost);
         }
 
-        // Allow server-side request (no header)
-        if (!origin && !referer) return true;
-
+        // Allow server-side (curl, etc.)
         return true;
       } catch {
         return false;
