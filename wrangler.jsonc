@@ -1,0 +1,10 @@
+{
+  "name": "css",
+  "main": "src/index.js",
+  "compatibility_date": "2025-02-25",
+
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+  },
+}

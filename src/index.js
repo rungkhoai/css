@@ -1,5 +1,7 @@
+import { getAssetFromKV } from "@cloudflare/kv-asset-handler";
+
 export default {
-  async fetch(request) {
+  async fetch(request, env, ctx) {
     const allowedExact = ["rungkhoai.odoo.com"];
 
     const allowedBaseDomains = [
@@ -39,13 +41,13 @@ export default {
       return new Response("Forbidden", { status: 403 });
     }
 
-    const response = await fetch(request);
+    // Serve static file từ /public
+    const response = await env.ASSETS.fetch(request);
+
     const headers = new Headers(response.headers);
 
     if (origin && isAllowed(origin)) {
       headers.set("Access-Control-Allow-Origin", origin);
-      headers.set("Access-Control-Allow-Methods", "GET, OPTIONS");
-      headers.set("Access-Control-Allow-Headers", "Content-Type");
       headers.set("Vary", "Origin");
     }
 
