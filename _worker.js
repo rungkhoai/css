@@ -1,54 +1,61 @@
 export default {
   async fetch(request) {
+    const allowedExact = ["rungkhoai.odoo.com"];
+
     const allowedBaseDomains = [
       "rungkhoai.com",
-      "tpbc.top",
-      "trethanhphat.com",
       "trethanhphat.vn",
+      "trethanhphat.com",
+      "tpbc.top",
     ];
 
     const url = new URL(request.url);
     const origin = request.headers.get("Origin");
 
     function isAllowed(origin) {
-      if (!origin) return true; // cho phép truy cập trực tiếp
+      if (!origin) return true;
 
       try {
-        const originUrl = new URL(origin);
-        const hostname = originUrl.hostname;
+        const hostname = new URL(origin).hostname;
+
+        if (allowedExact.includes(hostname)) return true;
 
         return allowedBaseDomains.some(
           (base) => hostname === base || hostname.endsWith("." + base),
         );
-      } catch (e) {
+      } catch {
         return false;
       }
     }
 
-    // Chỉ bảo vệ asset
-    if (
+    const isAsset =
       url.pathname.endsWith(".css") ||
       url.pathname.endsWith(".woff") ||
       url.pathname.endsWith(".woff2") ||
       url.pathname.endsWith(".ttf") ||
-      url.pathname.endsWith(".eot")
-    ) {
-      if (!isAllowed(origin)) {
-        return new Response("Forbidden", { status: 403 });
-      }
+      url.pathname.endsWith(".eot");
+
+    if (isAsset && !isAllowed(origin)) {
+      return new Response("Forbidden", { status: 403 });
     }
 
     const response = await fetch(request);
-    const newHeaders = new Headers(response.headers);
+    const headers = new Headers(response.headers);
 
     if (origin && isAllowed(origin)) {
-      newHeaders.set("Access-Control-Allow-Origin", origin);
-      newHeaders.set("Vary", "Origin");
+      headers.set("Access-Control-Allow-Origin", origin);
+      headers.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+      headers.set("Access-Control-Allow-Headers", "Content-Type");
+      headers.set("Vary", "Origin");
+    }
+
+    if (isAsset) {
+      headers.set("Cache-Control", "public, max-age=31536000, immutable");
     }
 
     return new Response(response.body, {
       status: response.status,
-      headers: newHeaders,
+      headers,
     });
   },
 };
