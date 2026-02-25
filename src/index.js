@@ -11,7 +11,6 @@ export default {
 
     const origin = request.headers.get("Origin");
     const referer = request.headers.get("Referer");
-    const secFetchSite = request.headers.get("sec-fetch-site");
 
     /*
     // 🔎 Check origin only
@@ -54,11 +53,6 @@ export default {
           if (!matchHost(refererHost)) return false;
         }
 
-        // Block if cross-site from browser
-        if (secFetchSite === "cross-site") {
-          if (!origin && !referer) return false;
-        }
-
         // Allow server-side request (no header)
         if (!origin && !referer) return true;
 
@@ -79,16 +73,21 @@ export default {
       contentType.includes("application/font") ||
       contentType.includes("application/octet-stream");
 
-    // 🔒 Anti-hotlink nâng cao
+    // 🔒 Anti-hotlink
     if (isStaticAsset && !isAllowedRequest()) {
       return new Response("Forbidden", { status: 403 });
     }
 
     // 🌍 CORS
-    if (origin && matchHost(new URL(origin).hostname)) {
-      headers.set("Access-Control-Allow-Origin", origin);
-      headers.set("Access-Control-Allow-Methods", "GET, OPTIONS");
-      headers.set("Access-Control-Allow-Headers", "*");
+    if (origin) {
+      try {
+        const originHost = new URL(origin).hostname;
+        if (matchHost(originHost)) {
+          headers.set("Access-Control-Allow-Origin", origin);
+          headers.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+          headers.set("Access-Control-Allow-Headers", "*");
+        }
+      } catch {}
     }
 
     // 🧠 Cache
