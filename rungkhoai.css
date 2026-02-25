@@ -72,7 +72,8 @@ body {
 
 h2 {
   margin-top: 0;
-  border-bottom: 2px solid #bd2abf;
+  border-bottom: 2px solid var(--color-background);
+  color: var(--color-primary);
   padding-bottom: 10px;
 }
 
@@ -132,13 +133,13 @@ a.button,
   color: #0d0d0d;
 }
 .bg0 {
-  background-color: #bd2abf;
+  background-color: var(--color-primary);
 }
 .bg1 {
-  background-color: #bf2a52;
+  background-color: var(--color-accent);
 }
 .bg2 {
-  background-color: #bf6b7b;
+  background-color: var(--color-alert);
 }
 .bg3 {
   background-color: #f2c4c4;
