@@ -1,15 +1,53 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap&family=Montserrat&family=Pinyon+Script&family=Playfair+Display:ital@0;1&display=swap");
 @font-face {
-  font-family: 'RungKhoai';
-  src: url('/fonts/UTMGradoo.woff2') format('woff2'),
-    url('/fonts/UTMGradoo.woff') format('woff');
+  font-family: "RungKhoai";
+  src:
+    url("/fonts/UTMGradoo.woff2") format("woff2"),
+    url("/fonts/UTMGradoo.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 .font-rungkhoai {
-  font-family: 'RungKhoai', 'UTM Gradoo', Arial, sans-serif;
+  font-family: "RungKhoai", "UTM Gradoo", Arial, sans-serif;
+}
+
+/* Phần quy định màu cho giao diện sáng và tối */
+:root {
+  --font-rungkhoai: "RungKhoai", "UTM Gradoo", Arial, sans-serif;
+  --font-primary: Arial, sans-serif;
+  /* Màu cho giao diện sáng - bắt đầu */
+  /* Màu chủ đạo cho giao diện sáng - bắt đầu */
+  --color-primary: #054219;
+  --color-secondary: #e2ffe2;
+  /* Màu chủ đạo cho giao diện sáng - kết thúc */
+  --color-accent: #ef9651;
+  --color-alert: #ec5228;
+  --color-background: #efefef;
+  --color-surface: #ffffff;
+  --color-text: #1e1e1e;
+  --color-muted: #666666;
+  --color-border: #cccccc;
+  /* Màu cho giao diện sáng - kết thúc */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Màu cho giao diện tối - bắt đầu */
+    /* Màu chủ đạo cho giao diện tối - bắt đầu */
+    --color-primary: #0a8030;
+    --color-secondary: #e2ffe2;
+    /* Màu chủ đạo cho giao diện tối - kết thúc */
+    --color-accent: #89f7a7;
+    --color-alert: #ff7f5e;
+    --color-background: #0d1b12;
+    --color-surface: #1c2e24;
+    --color-text: #f5f5f5;
+    --color-muted: #9aa39b;
+    --color-border: #2e4b3c;
+    /* Màu cho giao diện tối - bắt đầu */
+  }
 }
 
 a {
@@ -17,7 +55,7 @@ a {
 }
 a.button,
 .btn {
-  font: normal bold 14px "Roboto", sans-serif;
+  font: var(--font-rungkhoai)
   font-weight: 500;
   text-align: center;
   text-transform: uppercase;
