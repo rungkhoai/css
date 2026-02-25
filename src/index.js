@@ -1,7 +1,5 @@
-import { getAssetFromKV } from "@cloudflare/kv-asset-handler";
-
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request, env) {
     const allowedExact = ["rungkhoai.odoo.com"];
 
     const allowedBaseDomains = [
@@ -11,8 +9,8 @@ export default {
       "tpbc.top",
     ];
 
-    const url = new URL(request.url);
     const origin = request.headers.get("Origin");
+    const url = new URL(request.url);
 
     function isAllowed(origin) {
       if (!origin) return true;
@@ -41,7 +39,6 @@ export default {
       return new Response("Forbidden", { status: 403 });
     }
 
-    // Serve static file từ /public
     const response = await env.ASSETS.fetch(request);
 
     const headers = new Headers(response.headers);
