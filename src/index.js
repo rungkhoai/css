@@ -10,8 +10,11 @@ export default {
     ];
 
     const origin = request.headers.get("Origin");
-    const url = new URL(request.url);
+    const referer = request.headers.get("Referer");
+    const secFetchSite = request.headers.get("sec-fetch-site");
 
+    /*
+    // 🔎 Check origin only
     function isAllowed(origin) {
       if (!origin) return true;
 
@@ -21,14 +24,50 @@ export default {
         if (allowedExact.includes(hostname)) return true;
 
         return allowedBaseDomains.some(
-          (base) => hostname === base || hostname.endsWith("." + base),
+          (base) => hostname === base || hostname.endsWith("." + base)
         );
       } catch {
         return false;
       }
     }
+    */
 
-    // Serve asset
+    function matchHost(hostname) {
+      if (!hostname) return false;
+
+      if (allowedExact.includes(hostname)) return true;
+
+      return allowedBaseDomains.some(
+        (base) => hostname === base || hostname.endsWith("." + base),
+      );
+    }
+
+    function isAllowedRequest() {
+      try {
+        if (origin) {
+          const originHost = new URL(origin).hostname;
+          if (!matchHost(originHost)) return false;
+        }
+
+        if (referer) {
+          const refererHost = new URL(referer).hostname;
+          if (!matchHost(refererHost)) return false;
+        }
+
+        // Block if cross-site from browser
+        if (secFetchSite === "cross-site") {
+          if (!origin && !referer) return false;
+        }
+
+        // Allow server-side request (no header)
+        if (!origin && !referer) return true;
+
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
     const response = await env.ASSETS.fetch(request);
     const headers = new Headers(response.headers);
 
@@ -40,16 +79,22 @@ export default {
       contentType.includes("application/font") ||
       contentType.includes("application/octet-stream");
 
-    if (origin && isAllowed(origin) && isStaticAsset) {
+    // 🔒 Anti-hotlink nâng cao
+    if (isStaticAsset && !isAllowedRequest()) {
+      return new Response("Forbidden", { status: 403 });
+    }
+
+    // 🌍 CORS
+    if (origin && matchHost(new URL(origin).hostname)) {
       headers.set("Access-Control-Allow-Origin", origin);
       headers.set("Access-Control-Allow-Methods", "GET, OPTIONS");
       headers.set("Access-Control-Allow-Headers", "*");
-      headers.set("Vary", "Origin");
     }
 
-    if (isStaticAsset) {
-      headers.set("Cache-Control", "public, max-age=31536000, immutable");
-    }
+    // 🧠 Cache
+    headers.set("CDN-Cache-Control", "public, max-age=31536000, immutable");
+    headers.set("Cache-Control", "public, max-age=604800");
+    headers.set("Vary", "Origin");
 
     return new Response(response.body, {
       status: response.status,
