@@ -28,27 +28,26 @@ export default {
       }
     }
 
-    const isAsset =
-      url.pathname.endsWith(".css") ||
-      url.pathname.endsWith(".woff") ||
-      url.pathname.endsWith(".woff2") ||
-      url.pathname.endsWith(".ttf") ||
-      url.pathname.endsWith(".eot");
-
-    if (isAsset && !isAllowed(origin)) {
-      return new Response("Forbidden", { status: 403 });
-    }
-
+    // Serve asset
     const response = await env.ASSETS.fetch(request);
-
     const headers = new Headers(response.headers);
 
-    if (origin && isAllowed(origin)) {
+    const contentType = headers.get("content-type") || "";
+
+    const isStaticAsset =
+      contentType.includes("text/css") ||
+      contentType.includes("font/") ||
+      contentType.includes("application/font") ||
+      contentType.includes("application/octet-stream");
+
+    if (origin && isAllowed(origin) && isStaticAsset) {
       headers.set("Access-Control-Allow-Origin", origin);
+      headers.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+      headers.set("Access-Control-Allow-Headers", "*");
       headers.set("Vary", "Origin");
     }
 
-    if (isAsset) {
+    if (isStaticAsset) {
       headers.set("Cache-Control", "public, max-age=31536000, immutable");
     }
 
